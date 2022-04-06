@@ -12,12 +12,14 @@ ENV AWSCLI_URL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
 RUN apt-get update && apt-get install -y \
     dos2unix \
     figlet \
+    nodejs \
+    npm \
     vim
 
 # Install Python Tools
 # Boto3 is required for ansible to talk to AWS
 RUN python -m pip install --upgrade pip
-RUN pip install ansible boto3
+RUN pip install ansible aws-cdk-lib boto3 constructs==10.0.107
 
 # Install AWSCLI
 RUN curl -o /opt/awscliv2.zip $AWSCLI_URL && \
@@ -33,3 +35,6 @@ RUN curl -o /tmp/terraform.zip $TERRAFORM_URL && \
 # Install Packer
 RUN curl -o /tmp/packer.zip $PACKER_URL && \
     unzip /tmp/packer.zip -d /usr/local/bin/
+
+# Install AWS-CDK
+RUN npm install -g aws-cdk
